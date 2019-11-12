@@ -20,12 +20,12 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
 	connection.query(
-		"INSERT INTO products VALUES ('" + req.body.name + "', '" + req.body.price + "')",
+		"INSERT INTO products (name, price) VALUES ('" + req.body.name + "', '" + req.body.price + "')",
 		(error, results, fields) => {
 			if (error) throw error;
 			res.status(201).json({
 				message: 'Opération réussie',
-				createdProduct: product
+				createdProduct: results.affectedRows
 			});
 		}
 	);
