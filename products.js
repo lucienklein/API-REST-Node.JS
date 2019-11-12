@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const connection = require('./bdd');
 
+//Les différentes routes et requetes possibles
 router.get('/', (req, res, next) => {
 	connection.query('SELECT * FROM products', (error, results, fields) => {
 		if (error) {
