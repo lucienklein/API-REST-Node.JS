@@ -11,9 +11,22 @@ router.get('/', (req, res, next) => {
 			});
 			throw error;
 		}
+		var resultsArray = Object.values(results);
 		res.status(200).json({
 			message: 'Opération réussie',
-			products: results
+			count: resultsArray.length,
+
+			products: resultsArray.map((resultsArray) => {
+				return {
+					name: resultsArray.name,
+					price: resultsArray.price,
+					id: resultsArray.id,
+					request: {
+						type: 'GET',
+						url: 'http://localhost:8000/products/' + resultsArray.id
+					}
+				};
+			})
 		});
 	});
 });
@@ -25,13 +38,15 @@ router.post('/', (req, res, next) => {
 			if (error) throw error;
 			res.status(201).json({
 				message: 'Opération réussie',
-				createdProduct: results.affectedRows
+				createdProduct: {
+					name: req.body.name,
+					price: req.body.price
+				}
 			});
 		}
 	);
 });
 
-//Ajouter en cas de non correspondance avec un id
 router.get('/:productId', (req, res, next) => {
 	connection.query('SELECT * FROM products WHERE id = ' + req.params.productId, (error, results, fields) => {
 		if (error) {
