@@ -18,10 +18,6 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-	const product = {
-		name: req.body.name,
-		price: req.body.price
-	};
 	connection.query(
 		"INSERT INTO products VALUES ('" + req.body.name + "', '" + req.body.price + "')",
 		(error, results, fields) => {
@@ -58,12 +54,7 @@ router.get('/:productId', (req, res, next) => {
 
 router.patch('/:productId', (req, res, next) => {
 	connection.query(
-		"UPDATE products SET name = '" +
-			req.body.name +
-			"', price = '" +
-			req.body.price +
-			"' WHERE id = " +
-			req.params.productId,
+		'UPDATE products SET ' + req.body.propName + " = '" + req.body.value + "' WHERE id = " + req.params.productId,
 		(error, results, fields) => {
 			if (error) {
 				res.status(500).json({
