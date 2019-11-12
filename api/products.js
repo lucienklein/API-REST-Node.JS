@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const connection = require('./bdd');
+const connection = require('../db/bdd');
 
 //Les différentes routes et requetes possibles
 router.get('/', (req, res, next) => {

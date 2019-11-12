@@ -3,14 +3,14 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-const productsRoutes = require('./products');
+const productsRoutes = require('./api/products');
 const ordersRoutes = require('./orders');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//Autoriser les connections extérieurs
+//Autoriser les connections extérieurs (CORS)
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Header', '*');
