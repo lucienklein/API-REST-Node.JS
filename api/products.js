@@ -6,10 +6,9 @@ const connection = require('../db/bdd');
 router.get('/', (req, res, next) => {
 	connection.query('SELECT * FROM products', (error, results, fields) => {
 		if (error) {
-			res.status(500).json({
+			return res.status(500).json({
 				message: 'Erreur'
 			});
-			throw error;
 		}
 		var resultsArray = Object.values(results);
 		res.status(200).json({
@@ -35,7 +34,12 @@ router.post('/', (req, res, next) => {
 	connection.query(
 		"INSERT INTO products (name, price) VALUES ('" + req.body.name + "', '" + req.body.price + "')",
 		(error, results, fields) => {
-			if (error) throw error;
+			if (error) {
+				return res.status(500).json({
+					message: 'Erreur'
+				});
+			}
+
 			res.status(201).json({
 				message: 'Opération réussie',
 				createdProduct: {
@@ -50,11 +54,11 @@ router.post('/', (req, res, next) => {
 router.get('/:productId', (req, res, next) => {
 	connection.query('SELECT * FROM products WHERE id = ' + req.params.productId, (error, results, fields) => {
 		if (error) {
-			res.status(500).json({
+			return res.status(500).json({
 				message: 'Erreur'
 			});
-			throw error;
 		}
+
 		if (results == '') {
 			res.status(404).json({
 				message: '404 - Not found'
@@ -73,10 +77,9 @@ router.patch('/:productId', (req, res, next) => {
 		'UPDATE products SET ' + req.body.propName + " = '" + req.body.value + "' WHERE id = " + req.params.productId,
 		(error, results, fields) => {
 			if (error) {
-				res.status(500).json({
+				return res.status(500).json({
 					message: 'Erreur'
 				});
-				throw error;
 			}
 
 			if (results == '') {
@@ -96,10 +99,9 @@ router.patch('/:productId', (req, res, next) => {
 router.delete('/:productId', (req, res, next) => {
 	connection.query('DELETE FROM products WHERE id = ' + req.params.productId, (error, results, fields) => {
 		if (error) {
-			res.status(500).json({
+			return res.status(500).json({
 				message: 'Erreur'
 			});
-			throw error;
 		}
 
 		if (results == '') {
