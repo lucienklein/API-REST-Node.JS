@@ -3,7 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-const productsRoutes = require('./api/products');
+const usersRoutes = require('./api/users');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 });
 
 //Rediriger les urls
-app.use('/products', productsRoutes);
+app.use('/users', usersRoutes);
 
 //Si node ne trouve pas la route
 app.use((req, res, next) => {
