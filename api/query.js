@@ -42,6 +42,7 @@ exports.newUser = (req, res, next) => {
     if (email && telephone) {
         checkQuery("email", email, res, () => {
             checkQuery("telephone", telephone, res, () => {
+                // checkQuery("password", password, res, () => {
                 connection.query({
                     sql: 'INSERT INTO users ( name, firstName, email, password, telephone, campus, roles, promotion, age) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                     values: [name, firstName, email, password, telephone, campus, JSON.stringify(roles), promotion, age]
@@ -62,8 +63,7 @@ exports.newUser = (req, res, next) => {
                         }
                     }
                 );
-
-
+                // });
             })
         })
     }
