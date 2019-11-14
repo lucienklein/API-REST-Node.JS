@@ -44,7 +44,7 @@ exports.newUser = (req, res, next) => {
             checkQuery("telephone", telephone, res, () => {
                 connection.query({
                     sql: 'INSERT INTO users ( name, firstName, email, password, telephone, campus, roles, promotion, age) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                    values: [name, firstName, email, password, telephone, campus, roles, promotion, age]
+                    values: [name, firstName, email, password, telephone, campus, JSON.stringify(roles), promotion, age]
                 },
                     (error, results, fields) => {
                         if (error) {
@@ -56,7 +56,7 @@ exports.newUser = (req, res, next) => {
                                 message: 'Création réussie',
                                 createdUser: {
                                     name: name,
-                                    Préname: firstName
+                                    firstName: firstName
                                 }
                             });
                         }
