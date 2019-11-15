@@ -4,7 +4,7 @@ const query = require('./query');
 // const checkAuth = require('./check-auth');
 
 //Les différentes routes et requetes possibles
-router.get('/:id', query.get);
+router.get('/:id', query.get); // A enlever ?
 
 router.get('/getName/:id', query.getName)
 

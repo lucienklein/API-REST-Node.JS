@@ -13,11 +13,10 @@ function sendStatusCode(res, results, error) {
         res.status(200).json(
             results
         );
-        // message: 'Opération réussie',
     }
 }
 
-//Query
+//Les différentes query pour les différents request
 
 exports.get = (req, res, next) => {
     connection.query({ sql: "SELECT * FROM users WHERE id = ? ", values: [req.params.id] }, (error, results, fields) => {
@@ -39,10 +38,14 @@ exports.getFull = (req, res, next) => {
 
 exports.newUser = (req, res, next) => {
     const { name, firstName, email, password, telephone, campus, roles, promotion, age } = req.body;
+
     if (email && telephone) {
+
+        //Verification des différents champs ayant des exigences pour le format
+
         checkQuery("email", email, res, () => {
             checkQuery("telephone", telephone, res, () => {
-                // checkQuery("password", password, res, () => {
+
                 connection.query({
                     sql: 'INSERT INTO users ( name, firstName, email, password, telephone, campus, roles, promotion, age) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                     values: [name, firstName, email, password, telephone, campus, JSON.stringify(roles), promotion, age]
@@ -54,7 +57,6 @@ exports.newUser = (req, res, next) => {
 
                         else {
                             res.status(201).json({
-                                message: 'Création réussie',
                                 createdUser: {
                                     name: name,
                                     firstName: firstName
@@ -63,9 +65,8 @@ exports.newUser = (req, res, next) => {
                         }
                     }
                 );
-                // });
             })
         })
     }
-    else return res.status(500).json({ Erreur: "Le champ email et/ou telephone n'est pas renseigné" })
+    else return res.status(500).json({ Erreur: "Le champ email et/ou telephone et/ou password n'est pas renseigné" })
 }

@@ -7,11 +7,10 @@ var checkQuery = (propName, value, res, cb) => {
 
     else if (propName == "email") validateEmail(value, res, cb);
 
-    // else if (propName == "password") validatePassword(value, res, cb);
-
     else return cb();
 }
 
+//Fonctions permettant de vérifier les champs avec des regex
 function validateTelephone(value, res, cb) {
     var regexTelephone = /^((\+)33|0)[1-9](\d{2}){4}$/;
 
@@ -27,23 +26,14 @@ function validateEmail(value, res, cb) {
     var regexMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (regexMail.test(String(value).toLowerCase())) {
-        return uniqueProp("mail", value, res, cb);
+        return uniqueProp("email", value, res, cb);
     } else {
         res.status(500).json({ message: "L' email est dans un mauvais format" });
         return false;
     }
 }
 
-function validatePassword(value, res, cb) {
-    var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})$/;
-    if (regexPassword.test(String(value))) {
-        return cb();
-    } else {
-        res.status(500).json({ message: "Le mots de passe n'est pas assez robuste" });
-        return false;
-    }
-}
-
+//Fonction permettant de vérifier si la valeurs est unique dans la bdd
 function uniqueProp(propName, value, res, cb) {
     connection.query('SELECT * FROM users WHERE ' + propName + " = '" + value + "'", (error, results, fields) => {
         if (error) {
