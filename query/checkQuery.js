@@ -1,4 +1,4 @@
-const connection = require('../db/bdd');
+const connection = require('../db/database');
 
 //Fonction de validation des query
 var checkQuery = (propName, value, res, cb) => {
@@ -23,7 +23,7 @@ function validateTelephone(value, res, cb) {
 }
 
 function validateEmail(value, res, cb) {
-    var regexMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var regexMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@viacesi.fr$/;
 
     if (regexMail.test(String(value).toLowerCase())) {
         return uniqueProp("email", value, res, cb);

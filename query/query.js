@@ -1,5 +1,5 @@
 const checkQuery = require('./checkQuery');
-const connection = require('../db/bdd');
+const connection = require('../db/database');
 
 //Fonction renvoyant les différents code status;
 function sendStatusCode(res, results, error) {
@@ -17,12 +17,6 @@ function sendStatusCode(res, results, error) {
 }
 
 //Les différentes query pour les différents request
-
-exports.get = (req, res, next) => {
-    connection.query({ sql: "SELECT * FROM users WHERE id = ? ", values: [req.params.id] }, (error, results, fields) => {
-        sendStatusCode(res, results, error);
-    });
-}
 
 exports.getName = (req, res, next) => {
     connection.query({ sql: "SELECT name, firstName FROM users WHERE id = ? ", values: [req.params.id] }, (error, results, fields) => {
